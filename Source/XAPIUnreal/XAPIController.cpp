@@ -44,7 +44,7 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		TEXT("\"verb\" : {")
 		TEXT("\"id\": \"http://adlnet.gov/expapi/verbs/" + VerbName + "\",")
 		TEXT("\"display\" : {\"en-US\": \"" + VerbName + "\"}")
-		TEXT("},") 
+		TEXT("},")
 		TEXT("\"object\" : {")
 		TEXT("\"id\": \"http://example.com/activities/solo-hang-gliding\",")
 		TEXT("\"definition\" : { ")
@@ -61,11 +61,18 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		TEXT("\"parent\": { \"id\": \"http://example.com/activities/hang-gliding-class-a\" },")
 		TEXT("\"grouping\" : { \"id\": \"http://example.com/activities/hang-gliding-school\" }")
 		TEXT("}")
-		TEXT("}")
 		TEXT("}");
+		
 
+	if (VerbName.ToLower().Equals("completed"))
+	{
+		XAPIJson += TEXT(",\"result\": { ")
+			TEXT("\"completion\": true, ")
+			TEXT("\"success\" : true }");
+	}
+	XAPIJson += TEXT("}");
 
-		UE_LOG(LogTemp, Warning, TEXT("The json string is %s"), *XAPIJson);
+	UE_LOG(LogTemp, Warning, TEXT("The json string is %s"), *XAPIJson);
 	if (Http)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Sending xapi stuff out %s"), *URL);
