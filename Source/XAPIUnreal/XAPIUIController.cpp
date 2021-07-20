@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+ 
 
 #include "XAPIUIController.h"
 
@@ -30,13 +30,10 @@ void UXAPIUIController::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 void UXAPIUIController::RequestBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Sending XAPI Phrase"));
-
 	FDateTime CurrentDateTime = FDateTime::Now();
-	UE_LOG(LogTemp, Error, TEXT("Current date time  is  %s"), *CurrentDateTime.ToString());
-
-	if (XAPIController)
+	if (XAPIMananger)
 	{
-		XAPIController->CreateXAPIPhrase("unreallevel", "shuuun", "notreal@email.com", "completed", GetWorld()->GetTimeSeconds(), CurrentDateTime);
+		XAPIMananger->CreateXAPIPhrase("unreallevel", "test agent", "notreal@email.com", "completed", GetWorld()->GetTimeSeconds(), CurrentDateTime);
 	}
 	else
 	{

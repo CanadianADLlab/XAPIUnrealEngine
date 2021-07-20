@@ -3,27 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "Engine/World.h"
 #include "HttpModule.h"
 #include "JsonObjectConverter.h"
-#include "Components/ActorComponent.h"
-#include "Engine/World.h"
 #include "Interfaces/IHttpRequest.h"
 #include "Interfaces/IHttpResponse.h"
-#include "XAPIController.generated.h"
+#include "XAPIManager.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class XAPIUNREAL_API UXAPIController : public UActorComponent
+UCLASS()
+class XAPIUNREAL_API AXAPIManager : public AActor
 {
 	GENERATED_BODY()
-
+	
 public:	
-	// Sets default values for this component's properties
-	UXAPIController();
-
+	// Sets default values for this actor's properties
+	AXAPIManager();
 
 protected:
-	// Called when the game starts
+	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	FHttpModule* Http;
@@ -35,27 +33,19 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void Tick(float DeltaTime) override;
 	void CreateXAPIPhrase(FString Activity = "", FString AgentName = "", FString Email = "", FString VerbName = "", float TimeToComplete = 0, FDateTime CurrentDateTime = NULL);
-
-private: 
-
-	UPROPERTY(EditAnywhere, Category = XAPISettings)
-	FString URL = "https://lrs.ongarde.net/data/xAPI/statements";
+private:
 
 	UPROPERTY(EditAnywhere, Category = XAPISettings)
-	FString BasicAuth = "Basic YjE3ZTg4YzM4Y2RiMmRkYWI1NTljOTdjZThlYTk1ZTc3ZTdhNjIyYzo4NDRiYzEzN2ZhOWQ2MWE0MzYxOGJmZjMxNTc3ZTA5YjI5Y2NiYjg0";
+	FString URL = "";
+
+	UPROPERTY(EditAnywhere, Category = XAPISettings)
+	FString BasicAuth = "";
 
 	UPROPERTY(EditAnywhere, Category = XAPISettings)
 	FString XAPIVersion = "1.0.3";
 
-	
-
 	void XAPILRSResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
-
-
-	FString XAPIPHRASE = "";
-
-
 
 };

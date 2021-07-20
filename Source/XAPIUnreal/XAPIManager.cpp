@@ -1,22 +1,34 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "XAPIController.h"
-#include "Misc/DateTime.h"
+#include "XAPIManager.h"
 
-// Sets default values for this component's properties
-UXAPIController::UXAPIController()
+// Sets default values
+AXAPIManager::AXAPIManager()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = false;
 
-	// ...
 }
 
+// Called when the game starts or when spawned
+void AXAPIManager::BeginPlay()
+{
+	Super::BeginPlay();
+	Http = &FHttpModule::Get();
+	if (!Http)
+	{
+		UE_LOG(LogTemp, Error, TEXT("http object is not valid for some reason on actor %s"), *GetName());
+	}
+}
+// Called every frame
+void AXAPIManager::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 
-// Called when the game starts
-void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FString Email,FString VerbName,float TimeToComplete,FDateTime CurrentDateTime)
+}
+
+void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, float TimeToComplete, FDateTime CurrentDateTime)
 {
 	if (AgentName.IsEmpty())
 	{
@@ -64,13 +76,13 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		TEXT("},")
 		TEXT("\"result\": { ")
 		TEXT("\"duration\": \"PT" + LevelDuration + "S\",");
-		
+
 
 	if (VerbName.ToLower().Equals("completed"))
 	{
 		XAPIJson += TEXT("\"completion\": true, ")
 			TEXT("\"success\" : true ");
-	} 
+	}
 	if (!FormattedDateTime.IsEmpty()) // if someone sets the datetime than we override the current date time string
 	{
 		XAPIJson += TEXT("},\"timestamp\": \"" + FormattedDateTime + "\"");
@@ -81,83 +93,59 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 	}
 	XAPIJson += TEXT("}");
 
-	UE_LOG(LogTemp, Warning, TEXT("The json string is %s"), *XAPIJson);
 	if (Http)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Sending xapi stuff out %s"), *URL);
 		FHttpRequestRef Request = PostRequest(TEXT(""), XAPIJson);
-
-		Request->OnProcessRequestComplete().BindUObject(this, &UXAPIController::XAPILRSResponse); 
+		Request->OnProcessRequestComplete().BindUObject(this, &AXAPIManager::XAPILRSResponse);
 		Send(Request);
 	}
 }
 
-void UXAPIController::XAPILRSResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void AXAPIManager::XAPILRSResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Made it to the response %s"), *GetOwner()->GetName());
-
-	if (!ResponseIsValid(Response, bWasSuccessful)) 
-	{ return; 
+	if (!ResponseIsValid(Response, bWasSuccessful))
+	{
+		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Made it past the return %s"), *GetOwner()->GetName());
-	FString JsonString = Response->GetContentAsString();  
+	FString JsonString = Response->GetContentAsString();
 	UE_LOG(LogTemp, Warning, TEXT("json response is %s"), *JsonString);
 }
 
-void UXAPIController::BeginPlay()
-{
-	Super::BeginPlay();
-	Http = &FHttpModule::Get();
-	if (!Http)
-	{
-		UE_LOG(LogTemp, Error, TEXT("http object is not valid for some reason on actor %s"), *GetOwner()->GetName());
-	}
-	
-}
-
-
-// Called every frame
-void UXAPIController::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-}
 
 
 
-FHttpRequestRef UXAPIController::RequestWithRoute(FString  Subroute)
+FHttpRequestRef AXAPIManager::RequestWithRoute(FString  Subroute)
 {
 	FHttpRequestRef Request = Http->CreateRequest();
 	Request->SetURL(URL + Subroute);
 	//Request->SetHeader(TEXT("User-Agent"), TEXT("X-UnrealEngine-Agent"));
-	Request->SetHeader(TEXT("Authorization"),BasicAuth);
+	Request->SetHeader(TEXT("Authorization"), BasicAuth);
 	Request->SetHeader(TEXT("X-EXPERIENCE-API-VERSION"), XAPIVersion);
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	return Request;
 }
 
-FHttpRequestRef UXAPIController::GetRequest(FString Subroute)
+FHttpRequestRef AXAPIManager::GetRequest(FString Subroute)
 {
 	FHttpRequestRef Request = RequestWithRoute(Subroute);
 	Request->SetVerb("GET");
 	return Request;
 }
 
-FHttpRequestRef UXAPIController::PostRequest(FString Subroute, FString ContentJsonString)
+FHttpRequestRef AXAPIManager::PostRequest(FString Subroute, FString ContentJsonString)
 {
 	FHttpRequestRef Request = RequestWithRoute(Subroute);
 	Request->SetVerb("POST");
 	Request->SetContentAsString(ContentJsonString);
-	//Request->SetContentAsString();
-
 	return Request;
 }
 
-void UXAPIController::Send(FHttpRequestRef& Request)
+void AXAPIManager::Send(FHttpRequestRef& Request)
 {
 	Request->ProcessRequest();
 }
 
-bool UXAPIController::ResponseIsValid(FHttpResponsePtr Response, bool bWasSuccessful)
+bool AXAPIManager::ResponseIsValid(FHttpResponsePtr Response, bool bWasSuccessful)
 {
 	if ((!bWasSuccessful) || (!Response.IsValid()))
 	{
@@ -170,8 +158,10 @@ bool UXAPIController::ResponseIsValid(FHttpResponsePtr Response, bool bWasSucces
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Http message code:  %s"), *Response->GetContentAsString());
-		UE_LOG(LogTemp, Warning, TEXT("Http Response returned error code:  %d"), Response->GetResponseCode());  
+		UE_LOG(LogTemp, Warning, TEXT("Http Response returned error code:  %d"), Response->GetResponseCode());
 		return false;
 	}
 }
+
+
 

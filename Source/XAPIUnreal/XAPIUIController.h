@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/ActorComponent.h"
-#include "XAPIController.h"
+#include "XAPIManager.h"
 #include "XAPIUIController.generated.h"
 
 
@@ -27,7 +27,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UPROPERTY(EditAnywhere)
-	UXAPIController* XAPIController ;
+	AXAPIManager* XAPIMananger;
 
 private: 
 	UFUNCTION()
