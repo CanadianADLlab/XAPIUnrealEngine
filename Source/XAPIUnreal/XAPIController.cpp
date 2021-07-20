@@ -18,8 +18,6 @@ UXAPIController::UXAPIController()
 // Called when the game starts
 void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FString Email,FString VerbName,FString Type,float Time,FString NewDateTime)
 {
-	FString CurrentDateTime = FDateTime::Now().ToString();
-	FString LevelDuration = FString::SanitizeFloat(GetWorld()->GetTimeSeconds());
 	if (AgentName.IsEmpty())
 	{
 		AgentName = TEXT("NOAGENT");
@@ -39,6 +37,9 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 	{
 		Email = TEXT("NoEmail@email.com");
 	}
+
+	FString LevelDuration = FString::SanitizeFloat(Time);
+
 	FString XAPIJson = TEXT("{")
 		TEXT("\"actor\": {")
 		TEXT("\"name\": \"" + AgentName + "\",")
@@ -55,17 +56,7 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		TEXT("\"name\" : { \"en-US\":\" " + Activity + " \" }")
 		TEXT("}")
 		TEXT("},")
-		TEXT("\"context\": {")
-		TEXT("\"instructor\": {")
-		TEXT("\"name\": \"Unrealed Instructor\",")
-		TEXT("\"mbox\" : \"mailto:Unrealed@example.com\" ")
-		TEXT("},")
-		TEXT("\"contextActivities\" : { ")
-		TEXT("\"parent\": { \"id\": \"http://example.com/activities/hang-gliding-class-a\" },")
-		TEXT("\"grouping\" : { \"id\": \"http://example.com/activities/hang-gliding-school\" }")
-		TEXT("}")
-		TEXT("}")
-		TEXT(",\"result\": { ")
+		TEXT("\"result\": { ")
 		TEXT("\"duration\": \"PT" + LevelDuration + "S\",");
 		
 
@@ -73,11 +64,18 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 	{
 		XAPIJson += TEXT("\"completion\": true, ")
 			TEXT("\"success\" : true ");
+	} 
+	if (!NewDateTime.IsEmpty()) // if someone sets the datetime than we override the current date time string
+	{
+		XAPIJson += TEXT("}\"timestamp\": \"" + NewDateTime + "\"");
 	}
-	XAPIJson += TEXT("}}");
+	else
+	{
+		XAPIJson += TEXT("}");
+	}
+	XAPIJson += TEXT("}");
 
 	UE_LOG(LogTemp, Warning, TEXT("The json string is %s"), *XAPIJson);
-	UE_LOG(LogTemp, Warning, TEXT("The current date time is %s"), *CurrentDateTime);
 	if (Http)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Sending xapi stuff out %s"), *URL);
