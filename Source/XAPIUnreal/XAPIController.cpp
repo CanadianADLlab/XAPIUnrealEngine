@@ -9,14 +9,14 @@ UXAPIController::UXAPIController()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
 
 
 // Called when the game starts
-void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FString Email,FString VerbName,FString Type,float Time,FString NewDateTime)
+void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FString Email,FString VerbName,float TimeToComplete,FDateTime CurrentDateTime)
 {
 	if (AgentName.IsEmpty())
 	{
@@ -28,9 +28,9 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		Activity = TEXT("NOACTIVITY");
 	}
 
-	if (Time == 0)
+	if (TimeToComplete == 0)
 	{
-		Time = GetWorld()->GetTimeSeconds();
+		TimeToComplete = GetWorld()->GetTimeSeconds();
 	}
 
 	if (Email.IsEmpty())
@@ -38,7 +38,13 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		Email = TEXT("NoEmail@email.com");
 	}
 
-	FString LevelDuration = FString::SanitizeFloat(Time);
+	FString FormattedDateTime = "";
+	if (CurrentDateTime != NULL)
+	{
+		FormattedDateTime = CurrentDateTime.ToIso8601();
+	}
+
+	FString LevelDuration = FString::SanitizeFloat(TimeToComplete);
 
 	FString XAPIJson = TEXT("{")
 		TEXT("\"actor\": {")
@@ -65,9 +71,9 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		XAPIJson += TEXT("\"completion\": true, ")
 			TEXT("\"success\" : true ");
 	} 
-	if (!NewDateTime.IsEmpty()) // if someone sets the datetime than we override the current date time string
+	if (!FormattedDateTime.IsEmpty()) // if someone sets the datetime than we override the current date time string
 	{
-		XAPIJson += TEXT("}\"timestamp\": \"" + NewDateTime + "\"");
+		XAPIJson += TEXT("},\"timestamp\": \"" + FormattedDateTime + "\"");
 	}
 	else
 	{
@@ -121,7 +127,10 @@ void UXAPIController::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 void UXAPIController::RequestBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Sending XAPI Phrase"));
-	CreateXAPIPhrase("testscene", "shaun", "notreal@email.com", "completed");
+
+	FDateTime CurrentDateTime = FDateTime::Now();
+	UE_LOG(LogTemp, Error, TEXT("Current date time  is  %s"), *CurrentDateTime.ToString());
+	CreateXAPIPhrase("unreallevel", "shuuun", "notreal@email.com", "completed",GetWorld()->GetTimeSeconds(), CurrentDateTime);
 	// ...
 }
 

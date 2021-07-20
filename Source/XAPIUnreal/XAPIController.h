@@ -68,6 +68,6 @@ private:
 	UUserWidget* XAPIUIWidget;
 
 
-	void CreateXAPIPhrase(FString Activity = "", FString AgentName = "", FString Email = "", FString VerbName = "", FString Type = "", float Time = 0, FString NewDateTime = "");
+	void CreateXAPIPhrase(FString Activity = "", FString AgentName = "", FString Email = "", FString VerbName = "", float TimeToComplete = 0, FDateTime CurrentDateTime = NULL);
 
 };
