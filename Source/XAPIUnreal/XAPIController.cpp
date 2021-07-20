@@ -2,6 +2,7 @@
 
 
 #include "XAPIController.h"
+#include "Misc/DateTime.h"
 
 // Sets default values for this component's properties
 UXAPIController::UXAPIController()
@@ -17,6 +18,8 @@ UXAPIController::UXAPIController()
 // Called when the game starts
 void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FString Email,FString VerbName,FString Type,float Time,FString NewDateTime)
 {
+	FString CurrentDateTime = FDateTime::Now().ToString();
+	FString LevelDuration = FString::SanitizeFloat(GetWorld()->GetTimeSeconds());
 	if (AgentName.IsEmpty())
 	{
 		AgentName = TEXT("NOAGENT");
@@ -61,18 +64,20 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 		TEXT("\"parent\": { \"id\": \"http://example.com/activities/hang-gliding-class-a\" },")
 		TEXT("\"grouping\" : { \"id\": \"http://example.com/activities/hang-gliding-school\" }")
 		TEXT("}")
-		TEXT("}");
+		TEXT("}")
+		TEXT(",\"result\": { ")
+		TEXT("\"duration\": \"PT" + LevelDuration + "S\",");
 		
 
 	if (VerbName.ToLower().Equals("completed"))
 	{
-		XAPIJson += TEXT(",\"result\": { ")
-			TEXT("\"completion\": true, ")
-			TEXT("\"success\" : true }");
+		XAPIJson += TEXT("\"completion\": true, ")
+			TEXT("\"success\" : true ");
 	}
-	XAPIJson += TEXT("}");
+	XAPIJson += TEXT("}}");
 
 	UE_LOG(LogTemp, Warning, TEXT("The json string is %s"), *XAPIJson);
+	UE_LOG(LogTemp, Warning, TEXT("The current date time is %s"), *CurrentDateTime);
 	if (Http)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Sending xapi stuff out %s"), *URL);
@@ -92,7 +97,7 @@ void UXAPIController::XAPILRSResponse(FHttpRequestPtr Request, FHttpResponsePtr 
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Made it past the return %s"), *GetOwner()->GetName());
 	FString JsonString = Response->GetContentAsString();  
-	UE_LOG(LogTemp, Error, TEXT("Unable to find UI WIdget on actor %s"), *JsonString);
+	UE_LOG(LogTemp, Warning, TEXT("json response is %s"), *JsonString);
 }
 
 void UXAPIController::BeginPlay()
