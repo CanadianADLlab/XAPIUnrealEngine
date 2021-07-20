@@ -41,7 +41,7 @@ void UXAPIController::CreateXAPIPhrase(FString Activity,FString AgentName,FStrin
 	FString FormattedDateTime = "";
 	if (CurrentDateTime != NULL)
 	{
-		FormattedDateTime = CurrentDateTime.ToIso8601();
+		FormattedDateTime = CurrentDateTime.UtcNow().ToIso8601();
 	}
 
 	FString LevelDuration = FString::SanitizeFloat(TimeToComplete);
