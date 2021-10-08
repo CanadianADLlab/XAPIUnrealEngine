@@ -8,6 +8,7 @@ To use simple add the XAPIManger to a level (Can be found if you search for it i
 
 
 Now set up the endpoint and the basic auth key which can be found in your lrs settings.
+The end point HAS TO BE THE url/statments so for example it would be https://insertmylrshere.net/data/xAPI/statements, in the unity package the url I used was https://insertmylrshere.net/data/xAPI causing some confusion here for myself.
 <br>
 <br>
 
