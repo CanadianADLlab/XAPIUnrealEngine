@@ -68,7 +68,7 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		TEXT("\"display\" : {\"en-US\": \"" + VerbName + "\"}")
 		TEXT("},")
 		TEXT("\"object\" : {")
-		TEXT("\"id\": \"http://example.com/activities/solo-hang-gliding\",")
+		TEXT("\"id\": \"http:// " + Activity + " \",") // not sure why the id has to be in the format of an url
 		TEXT("\"definition\" : { ")
 		TEXT("\"type\": \"http://adlnet.gov/expapi/activities/course\",")
 		TEXT("\"name\" : { \"en-US\":\" " + Activity + " \" }")
