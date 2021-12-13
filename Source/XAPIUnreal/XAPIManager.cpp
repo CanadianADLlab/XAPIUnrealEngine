@@ -15,11 +15,7 @@ AXAPIManager::AXAPIManager()
 void AXAPIManager::BeginPlay()
 {
 	Super::BeginPlay();
-	Http = &FHttpModule::Get();
-	if (!Http)
-	{
-		UE_LOG(LogTemp, Error, TEXT("http object is not valid for some reason on actor %s"), *GetName());
-	}
+	
 }
 // Called every frame
 void AXAPIManager::Tick(float DeltaTime)
@@ -93,11 +89,16 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 	}
 	XAPIJson += TEXT("}");
 
+	Http = &FHttpModule::Get();
 	if (Http)
 	{
 		FHttpRequestRef Request = PostRequest(TEXT(""), XAPIJson);
 		Request->OnProcessRequestComplete().BindUObject(this, &AXAPIManager::XAPILRSResponse);
 		Send(Request);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Http pointer null attatched to %s"), *GetName());
 	}
 }
 
