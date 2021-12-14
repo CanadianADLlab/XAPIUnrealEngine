@@ -24,7 +24,7 @@ void AXAPIManager::Tick(float DeltaTime)
 
 }
 
-void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, FString ActivityURL,FString CourseURL ,float TimeToComplete, FDateTime CurrentDateTime)
+void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, FString ActivityURL,FString CourseURL ,float TimeToComplete, FString CurrentDateTime)
 {
 	if (AgentName.IsEmpty())
 	{
@@ -58,9 +58,11 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 
 
 	FString FormattedDateTime = "";
-	if (CurrentDateTime != NULL)
+	if (!CurrentDateTime.IsEmpty())
 	{
-		FormattedDateTime = CurrentDateTime.UtcNow().ToIso8601();
+		FDateTime currentDate;
+		FDateTime::Parse(CurrentDateTime, currentDate);
+		FormattedDateTime = currentDate.UtcNow().ToIso8601();
 	}
 
 	FString LevelDuration = FString::SanitizeFloat(TimeToComplete);

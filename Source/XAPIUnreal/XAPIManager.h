@@ -35,7 +35,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void CreateXAPIPhrase (FString Activity = "", FString AgentName = "", FString Email = "", FString VerbName = "", FString ActivityURL = "", FString CourseURL = "", float TimeToComplete = 0, FDateTime CurrentDateTime = NULL);
+	UFUNCTION(BlueprintCallable, Category = XAPI)
+	void CreateXAPIPhrase (FString Activity = "", FString AgentName = "", FString Email = "", FString VerbName = "", FString ActivityURL = "", FString CourseURL = "", float TimeToComplete = 0, FString CurrentDateTime = "");
 private:
 
 	UPROPERTY(EditAnywhere, Category = XAPISettings)

@@ -30,7 +30,7 @@ void UXAPIUIController::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 void UXAPIUIController::RequestBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Sending XAPI Phrase"));
-	FDateTime CurrentDateTime = FDateTime::Now();
+	FString CurrentDateTime =  FDateTime::Now().ToString();
 	if (XAPIMananger)
 	{
 		XAPIMananger->CreateXAPIPhrase("unreallevel", "test agent", "notreal@email.com", "completed","http://adlnet.gov/expapi/verbs/","http://adlnet.gov/expapi/activities/course", GetWorld()->GetTimeSeconds(), CurrentDateTime);
