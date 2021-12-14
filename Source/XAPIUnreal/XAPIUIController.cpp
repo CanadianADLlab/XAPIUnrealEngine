@@ -33,7 +33,7 @@ void UXAPIUIController::RequestBtnClicked()
 	FDateTime CurrentDateTime = FDateTime::Now();
 	if (XAPIMananger)
 	{
-		XAPIMananger->CreateXAPIPhrase("unreallevel", "test agent", "notreal@email.com", "completed", GetWorld()->GetTimeSeconds(), CurrentDateTime);
+		XAPIMananger->CreateXAPIPhrase("unreallevel", "test agent", "notreal@email.com", "completed","http://adlnet.gov/expapi/verbs/","http://adlnet.gov/expapi/activities/course", GetWorld()->GetTimeSeconds(), CurrentDateTime);
 	}
 	else
 	{

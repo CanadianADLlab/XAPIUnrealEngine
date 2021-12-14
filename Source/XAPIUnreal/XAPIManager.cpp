@@ -24,7 +24,7 @@ void AXAPIManager::Tick(float DeltaTime)
 
 }
 
-void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, float TimeToComplete, FDateTime CurrentDateTime)
+void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, FString ActivityURL,FString CourseURL ,float TimeToComplete, FDateTime CurrentDateTime)
 {
 	if (AgentName.IsEmpty())
 	{
@@ -46,6 +46,17 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		Email = TEXT("NoEmail@email.com");
 	}
 
+	if (CourseURL.IsEmpty())
+	{
+		Email = TEXT("http://adlnet.gov/expapi/verbs/");
+	}
+
+	if (CourseURL.IsEmpty())
+	{
+		Email = TEXT("http://adlnet.gov/expapi/activities/course");
+	}
+
+
 	FString FormattedDateTime = "";
 	if (CurrentDateTime != NULL)
 	{
@@ -60,13 +71,13 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		TEXT("\"mbox\": \"mailto:" + Email + "\"")
 		TEXT("},")
 		TEXT("\"verb\" : {")
-		TEXT("\"id\": \"http://adlnet.gov/expapi/verbs/" + VerbName + "\",")
+		TEXT("\"id\": \"" + ActivityURL + VerbName + "\",")
 		TEXT("\"display\" : {\"en-US\": \"" + VerbName + "\"}")
 		TEXT("},")
 		TEXT("\"object\" : {")
 		TEXT("\"id\": \"http:// " + Activity + " \",") // not sure why the id has to be in the format of an url
 		TEXT("\"definition\" : { ")
-		TEXT("\"type\": \"http://adlnet.gov/expapi/activities/course\",")
+		TEXT("\"type\": \"" + CourseURL + " \",")
 		TEXT("\"name\" : { \"en-US\":\" " + Activity + " \" }")
 		TEXT("}")
 		TEXT("},")
