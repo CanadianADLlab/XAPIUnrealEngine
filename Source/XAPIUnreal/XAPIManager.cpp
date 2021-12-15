@@ -15,6 +15,11 @@ AXAPIManager::AXAPIManager()
 void AXAPIManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (URL.IsEmpty() || BasicAuth.IsEmpty())
+	{
+		UE_LOG(LogTemp, Error, TEXT("Either the lrs url or the basic auth is not set on the object %s please set or xapi statements WONT WORK"), *GetName());
+	}
 	
 }
 // Called every frame
@@ -46,14 +51,14 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		Email = TEXT("NoEmail@email.com");
 	}
 
-	if (CourseURL.IsEmpty())
+	if (ActivityURL.IsEmpty())
 	{
-		Email = TEXT("http://adlnet.gov/expapi/verbs/");
+		ActivityURL = TEXT("http://adlnet.gov/expapi/verbs/");
 	}
 
 	if (CourseURL.IsEmpty())
 	{
-		Email = TEXT("http://adlnet.gov/expapi/activities/course");
+		CourseURL = TEXT("http://adlnet.gov/expapi/activities/course");
 	}
 
 
@@ -64,6 +69,7 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		FDateTime::Parse(CurrentDateTime, currentDate);
 		FormattedDateTime = currentDate.UtcNow().ToIso8601();
 	}
+	
 
 	FString LevelDuration = FString::SanitizeFloat(TimeToComplete);
 
@@ -84,12 +90,12 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		TEXT("}")
 		TEXT("},")
 		TEXT("\"result\": { ")
-		TEXT("\"duration\": \"PT" + LevelDuration + "S\",");
+		TEXT("\"duration\": \"PT" + LevelDuration + "S\"");
 
 
 	if (VerbName.ToLower().Equals("completed"))
 	{
-		XAPIJson += TEXT("\"completion\": true, ")
+		XAPIJson += TEXT(",\"completion\": true, ")
 			TEXT("\"success\" : true ");
 	}
 	if (!FormattedDateTime.IsEmpty()) // if someone sets the datetime than we override the current date time string
