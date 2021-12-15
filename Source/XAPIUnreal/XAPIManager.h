@@ -36,7 +36,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable, Category = XAPI)
-	void CreateXAPIPhrase (FString Activity = "", FString AgentName = "", FString Email = "", FString VerbName = "", FString ActivityURL = "", FString CourseURL = "", float TimeToComplete = 0, FString CurrentDateTime = "");
+	void CreateXAPIPhrase (FString Activity = "NOACTIVITY", FString AgentName = "NOAGENT", FString Email = "NoEmail@email.com", FString VerbName = "NOVERB", FString ActivityURL = "http://adlnet.gov/expapi/verbs/", FString CourseURL = "http://adlnet.gov/expapi/activities/course", float TimeToComplete = 0, FString CurrentDateTime = "");
 private:
 
 	UPROPERTY(EditAnywhere, Category = XAPISettings)

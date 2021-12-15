@@ -31,36 +31,11 @@ void AXAPIManager::Tick(float DeltaTime)
 
 void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, FString ActivityURL,FString CourseURL ,float TimeToComplete, FString CurrentDateTime)
 {
-	if (AgentName.IsEmpty())
-	{
-		AgentName = TEXT("NOAGENT");
-	}
-
-	if (Activity.IsEmpty())
-	{
-		Activity = TEXT("NOACTIVITY");
-	}
 
 	if (TimeToComplete == 0)
 	{
 		TimeToComplete = GetWorld()->GetTimeSeconds();
 	}
-
-	if (Email.IsEmpty())
-	{
-		Email = TEXT("NoEmail@email.com");
-	}
-
-	if (ActivityURL.IsEmpty())
-	{
-		ActivityURL = TEXT("http://adlnet.gov/expapi/verbs/");
-	}
-
-	if (CourseURL.IsEmpty())
-	{
-		CourseURL = TEXT("http://adlnet.gov/expapi/activities/course");
-	}
-
 
 	FString FormattedDateTime = "";
 	if (!CurrentDateTime.IsEmpty())
@@ -69,7 +44,6 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		FDateTime::Parse(CurrentDateTime, currentDate);
 		FormattedDateTime = currentDate.UtcNow().ToIso8601();
 	}
-	
 
 	FString LevelDuration = FString::SanitizeFloat(TimeToComplete);
 
