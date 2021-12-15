@@ -1,6 +1,6 @@
 
 <h1> How to call statement via C++</h1>
-To use simple add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
+Add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
 <br>
 <br>
 <img width="508" alt="image1" src="https://user-images.githubusercontent.com/39784801/136555156-cd2dcceb-66b4-40f4-a42c-203635f8d033.png">
@@ -30,3 +30,28 @@ Than call the CreateXAPIPhrase function to send info to the lrs
 <br>
 
 ![newxapiunrealscreenshot](https://user-images.githubusercontent.com/39784801/146002697-05cc509c-3357-4aef-95ca-ff4f85d92b23.png)
+
+<h1>Call XAPI Statements via blueprints</h1>
+
+Add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
+<br>
+<br>
+<img width="508" alt="image1" src="https://user-images.githubusercontent.com/39784801/136555156-cd2dcceb-66b4-40f4-a42c-203635f8d033.png">
+<br>
+
+Now to call the CreateXAPIStatement via blueprints, find the xapi manager by using the node GetActorOfClass
+
+<br>
+
+![getactorofclass](https://user-images.githubusercontent.com/39784801/146206511-6fb0b8f9-f135-48a5-a323-350a7e28780d.png)
+
+<br>
+
+Now with a reference to the XAPIManger you can call the CreateXAPIPhrase node which looks like this.
+
+<br>
+
+
+
+![createphrase](https://user-images.githubusercontent.com/39784801/146208837-582033f8-f7c3-4afb-8f34-c7f145785bf8.png)
+
