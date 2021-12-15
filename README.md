@@ -104,7 +104,7 @@ To reference in C++ just add the XAPIManger as a UProperty and set it via the in
 
 <br>
 
-Than call the CreateXAPIPhrase function to send info to the lrs
+Then call the CreateXAPIPhrase function to send info to the lrs
 <br>
 <br>
 
