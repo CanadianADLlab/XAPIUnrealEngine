@@ -46,6 +46,37 @@ FString CurrentDateTime - The date the activity was completed. Default : Is the 
 <br>
 
 
+<h1>Example Levels</h1>
+
+Both the example levels included in the project are just blank levels with a button that you click that sends a statement to an endpoint. One level uses blueprints and the other uses c++.
+
+<h2>XAPIUI_ExampleLevelC++</h2>
+
+The c++ level handles everything via code other than instantiating the UI which is done in the level blueprint by adding the XAPIUIController. To find the code for the button and how it sends requests that way, open up the c++ class XAPIUIController. This class sets up an event for the button that calls the CreateXAPIPhrase function when clicked it also instantiates the ui widget itself.
+
+
+<h2>XAPIUsingBlueprintNodes</h2>
+
+This level uses no c++ and just calls the CreateXAPIPhrase via blueprint. To view how this is done view the level blueprint, there it creates the ui element that handles the event. 
+<br>
+<br>
+![creatingui](https://user-images.githubusercontent.com/39784801/146242433-45b5fb86-bda5-468e-bdd3-5fa12fe10848.png)
+<br>
+<br>
+
+
+
+To view how the ui element does it go to UI/WBP_XAPINoCode and open that widget, open the graph to see how it calls the xapi phrase from an onclick. 
+
+<br>
+<br>
+
+![creatingphrase](https://user-images.githubusercontent.com/39784801/146242455-461fcb11-6500-46e9-a8f3-b7fd395a6e85.png)
+
+<br>
+
+
+
 
 <h1> How to call statement via C++</h1>
 Add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
