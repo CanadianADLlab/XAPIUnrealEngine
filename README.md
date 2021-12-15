@@ -1,6 +1,51 @@
 <h1>Overview</h1>
 A very simple unreal project designed to send simple xapi statements to an lrs.
 
+<h1>XAPIManager Actor</h1>
+
+The XAPIManager actor can be found in the place actors tab, add this to the level.
+<br>
+<br>
+<img width="508" alt="image1" src="https://user-images.githubusercontent.com/39784801/136555156-cd2dcceb-66b4-40f4-a42c-203635f8d033.png">
+<br>
+<br>
+MAKE SURE TO SET THE url,basic auth and the xapi version number in the inspector or statements will not work. 
+<br>
+
+<img width="365" alt="image2" src="https://user-images.githubusercontent.com/39784801/136555175-5725d898-bb39-4b46-ba8a-6202b1e396fa.png">
+<br>
+ <h1>CreateXAPIPhrase</h1>
+
+The main function to send a statement to the lrs is contained within the XAPIManager and called CreateXAPIPhrase, so if you’d like to customize it to fit your needs just modify the code within this function. The CreateXAPIPhrase is both callable from C++ and blueprints explained below how to do that.
+
+I’m going to break down the parameters of this function below.
+<br>
+
+FString Activity - The activity is what the user is doing. Example :“Solo Hang Gliding”. Default is “NOACTIVITY” if not set.
+<br>
+
+FString AgentName - The name of the user from the statement. Example:  “Jon Doe”. Default is “NOAGENT” if not set.
+<br>
+
+FString Email - The email of the user. Example : “Fakeemail@notarealemail.com” . Default is “NoEmail@email.com” if not set.
+<br>
+
+FString VerbName - The action the user is doing. Example : “completed”. Default is “NOVERB” if not set.
+<br>
+
+FString VerbURL - The URL of the verb. Example And Default : http://adlnet.gov/expapi/verbs/“” 
+<br>
+
+FString CourseURL - The URL of the course. Example and Default : “http://adlnet.gov/expapi/activities/course” 
+<br>
+
+Float TimeToComplete - The time it took for the user to do an activity. Default : This is how long the level was running for.
+<br>
+
+FString CurrentDateTime - The date the activity was completed. Default : Is the current datetime, just thought I’d let users set this incase they want to override the current date.
+<br>
+
+
 
 <h1> How to call statement via C++</h1>
 Add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
