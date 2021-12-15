@@ -1,3 +1,6 @@
+<h1>Overview</h1>
+A very simple unreal project designed to send simple xapi statements to an lrs.
+
 
 <h1> How to call statement via C++</h1>
 Add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
