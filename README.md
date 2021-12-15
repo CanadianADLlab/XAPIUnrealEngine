@@ -9,7 +9,7 @@ The XAPIManager actor can be found in the place actors tab, add this to the leve
 <img width="508" alt="image1" src="https://user-images.githubusercontent.com/39784801/136555156-cd2dcceb-66b4-40f4-a42c-203635f8d033.png">
 <br>
 <br>
-MAKE SURE TO SET THE url,basic auth and the xapi version number in the inspector or statements will not work. 
+Make sure to set the URL, BASIC AUTH, and the XAPI VERSION NUMBER in the inspector or statements will not work.
 <br>
 
 <img width="365" alt="image2" src="https://user-images.githubusercontent.com/39784801/136555175-5725d898-bb39-4b46-ba8a-6202b1e396fa.png">
