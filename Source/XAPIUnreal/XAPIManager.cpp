@@ -29,7 +29,7 @@ void AXAPIManager::Tick(float DeltaTime)
 
 }
 
-void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, FString ActivityURL,FString CourseURL ,float TimeToComplete, FString CurrentDateTime)
+void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString Email, FString VerbName, FString VerbURL,FString CourseURL ,float TimeToComplete, FString CurrentDateTime)
 {
 
 	if (TimeToComplete == 0)
@@ -53,7 +53,7 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 		TEXT("\"mbox\": \"mailto:" + Email + "\"")
 		TEXT("},")
 		TEXT("\"verb\" : {")
-		TEXT("\"id\": \"" + ActivityURL + VerbName + "\",")
+		TEXT("\"id\": \"" + VerbURL + VerbName + "\",")
 		TEXT("\"display\" : {\"en-US\": \"" + VerbName + "\"}")
 		TEXT("},")
 		TEXT("\"object\" : {")

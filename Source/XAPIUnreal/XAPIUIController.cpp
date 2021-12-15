@@ -16,6 +16,7 @@ UXAPIUIController::UXAPIUIController()
 void UXAPIUIController::BeginPlay()
 {
 	Super::BeginPlay();
+
 	SetUpUI();
 }
 
