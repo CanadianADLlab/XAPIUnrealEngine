@@ -33,7 +33,7 @@ void AXAPIManager::CreateXAPIPhrase(FString Activity, FString AgentName, FString
 {
 
 	if (TimeToComplete == 0)
-	{
+	{ 
 		TimeToComplete = GetWorld()->GetTimeSeconds();
 	}
 
