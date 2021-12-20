@@ -1,3 +1,7 @@
+For unreal 5 implemenation please see https://github.com/CanadianADLlab/XAPIUnreal5
+<br>
+
+
 To use simple add the XAPIManger to a level (Can be found if you search for it in the PlaceActors area)
 <br>
 <br>
